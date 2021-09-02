@@ -29,7 +29,15 @@ def open_file():
         read_pdf = PyPDF2.PdfFileReader(file)
         page = read_pdf.getPage(0)
         page_contend = page.extractText()
-        print(page_contend)
+
+        #text box
+        text_box = tk.Text(root, height=10, width=50, padx=15, pady=15)
+        text_box.insert(1.0, page_contend)
+        text_box.tag_configure('center', justify='center')
+        text_box.tag_add('center', 1.0, 'end')
+        text_box.grid(column=1, row=3)
+
+        browse_text.set('Browse')
 
 #browse button
 browse_text = tk.StringVar()
