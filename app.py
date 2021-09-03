@@ -1,26 +1,24 @@
-import tkinter as tk
+from tkinter import *
 import PyPDF2
 from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfile
+from functions import display_logo, display_textbox, extract_images
 
 
-
-root = tk.Tk()
+root = Tk()
 
 #render
-canvas = tk.Canvas(root, width=600, height=300)
-canvas.grid(columnspan=3, rowspan=3)
+root.geometry('+%d+%d'%(250,150))
 
-#logo
-logo = Image.open('logo.png')
-logo = ImageTk.PhotoImage(logo)
-logo_label = tk.Label(image=logo)
-logo_label.image = logo
-logo_label.grid(column=1, row=0)
+#header area - Logo & browser button
+header = Frame(root, width=800, height=175, bg='white')
+header.grid(columnspan=3, rowspan=2, row=0)
 
-#instructions
-instructions = tk.Label(root, text='Select a PDF file on your PC to extract all its text', font='Arial')
-instructions.grid(columnspan=3, column=0, row=1)
+
+#main contend area - text and image extraction
+main_content = Frame(root, width=800, height=250, bg='#20bebe')
+main_content.grid(columnspan=3, rowspan=2, row=0)
+
 
 def open_file():
     browse_text.set('loading...')
@@ -28,24 +26,24 @@ def open_file():
     if file:
         read_pdf = PyPDF2.PdfFileReader(file)
         page = read_pdf.getPage(0)
-        page_contend = page.extractText()
-
+        page_content = page.extractText()
+        page_content = page_content.replace('\u2122', '')
         #text box
-        text_box = tk.Text(root, height=10, width=50, padx=15, pady=15)
-        text_box.insert(1.0, page_contend)
-        text_box.tag_configure('center', justify='center')
-        text_box.tag_add('center', 1.0, 'end')
-        text_box.grid(column=1, row=3)
+        display_textbox(page_content, 2, 0, root)
 
         browse_text.set('Browse')
 
+
+display_logo('logo.png', 0, 0)
+
+#instructions
+instructions = Label(root, text='Select a PDF file', font=('Arial', 10), bg='white')
+instructions.grid(column=2, row=0, sticky=SE, padx=75, pady=5)
+
 #browse button
-browse_text = tk.StringVar()
-browse_btn = tk.Button(root, textvariable=browse_text,command=lambda:open_file(), font='Arial',bg='#20bebe', fg='white', height=2, width=15)
+browse_text = StringVar()
+browse_btn = Button(root, textvariable=browse_text,command=lambda:open_file(), font='Arial',bg='#20bebe', fg='white', height=2, width=15)
 browse_text.set('Browse')
 browse_btn.grid(column=1, row=2)
-
-canvas = tk.Canvas(root, width=600, height=300)
-canvas.grid(columnspan=3, rowspan=3)
 
 root.mainloop()
