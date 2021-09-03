@@ -11,13 +11,13 @@ def display_logo(url, row, column):
     img_label.grid(column=column, row=row, rowspan=2, sticky=NW, padx=20, pady=40)
 
 
-def display_icon(url, row, column):
+def display_icon(url, row, column, stick):
     icon = Image.open(url)
-    icon = icon.resize()
+    icon = icon.resize((20, 20))
     icon = ImageTk.PhotoImage(icon)
-    icon_label = Label(image=icon, bg='white')
+    icon_label = Button(image=icon, width=25, height=25)
     icon_label.image = icon
-    icon_label.grid(column=column, row=row)
+    icon_label.grid(column=column, row=row, sticky=stick)
 
 
 def display_textbox(content, ro, col, root):

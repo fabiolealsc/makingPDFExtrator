@@ -1,8 +1,9 @@
+import re
 from tkinter import *
 import PyPDF2
 from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfile
-from functions import display_logo, display_textbox, extract_images
+from functions import display_logo, display_textbox, extract_images, display_icon
 
 
 root = Tk()
@@ -19,6 +20,10 @@ img_menu.grid(columnspan=3, rowspan=1, row=2)
 
 what_img = Label(root, text='image 1 of 5', font=('Arial', 10))
 what_img.grid(row=2, column=1)
+
+display_icon('arrow_l.png', 2, 0, E)
+display_icon('arrow_r.png', 2, 2, W)
+
 
 save_img = Frame(root, width=800, height=60, bg='#c8c8c8')
 save_img.grid(columnspan=3, rowspan=1, row=3)
@@ -48,6 +53,35 @@ def open_file():
         page_content = page_content.replace('\u2122', '')
         #text box
         display_textbox(page_content, 4, 0, root)
+
+        images = extract_images(page)
+        img = images[0]
+
+        def resize_images(img):
+            width, heigth = int(img.size[0]), int(img.size[1])
+            if width > heigth:
+                heigth = int(300/width*heigth)
+                width = 300
+            
+            elif heigth > width:
+                heigth = 250
+                width = int(250/width*heigth)
+
+            else:
+                width, heigth = 250, 250
+            
+            img = img.resize((width, heigth))
+            return img
+
+        def display_images(img):
+            img = resize_images(img)
+            img = ImageTk.PhotoImage(img)
+            img_label = Label(image=img, bg='white')
+            img_label.image = img
+            img_label.grid(row=4, column=2, rowspan=2)
+            return img_label
+
+        display_images(img)
 
     browse_text.set('Browse')
 
