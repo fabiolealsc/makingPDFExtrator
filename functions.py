@@ -4,12 +4,20 @@ from PIL import Image, ImageTk
 
 def display_logo(url, row, column):
     img = Image.open(url)
-
     img = img.resize((int(img.size[0]/1.5), int(img.size[1]/1.5)))
     img = ImageTk.PhotoImage(img)
     img_label = Label(image=img, bg='white')
     img_label.image = img
     img_label.grid(column=column, row=row, rowspan=2, sticky=NW, padx=20, pady=40)
+
+
+def display_icon(url, row, column):
+    icon = Image.open(url)
+    icon = icon.resize()
+    icon = ImageTk.PhotoImage(icon)
+    icon_label = Label(image=icon, bg='white')
+    icon_label.image = icon
+    icon_label.grid(column=column, row=row)
 
 
 def display_textbox(content, ro, col, root):

@@ -8,16 +8,34 @@ from functions import display_logo, display_textbox, extract_images
 root = Tk()
 
 #render
-root.geometry('+%d+%d'%(250,150))
+root.geometry('+%d+%d'%(250,80))
 
 #header area - Logo & browser button
-header = Frame(root, width=800, height=175, bg='white')
+header = Frame(root, width=800, height=200, bg='white')
 header.grid(columnspan=3, rowspan=2, row=0)
+
+img_menu = Frame(root, width=800, height=60)
+img_menu.grid(columnspan=3, rowspan=1, row=2)
+
+what_img = Label(root, text='image 1 of 5', font=('Arial', 10))
+what_img.grid(row=2, column=1)
+
+save_img = Frame(root, width=800, height=60, bg='#c8c8c8')
+save_img.grid(columnspan=3, rowspan=1, row=3)
+
+copyText_btn = Button(root, text='copy text', font=('Arial', 10), height=1, width=15)
+saveAll_btn = Button(root, text='save all images', font=('Arial', 10), height=1, width=15)
+save_btn = Button(root, text='save image', font=('Arial', 10), height=1, width=15)
+
+copyText_btn.grid(row=3, column=0)
+saveAll_btn.grid(row=3, column=1)
+save_btn.grid(row=3, column=2)
+
 
 
 #main contend area - text and image extraction
 main_content = Frame(root, width=800, height=250, bg='#20bebe')
-main_content.grid(columnspan=3, rowspan=2, row=0)
+main_content.grid(columnspan=3, rowspan=2, row=4)
 
 
 def open_file():
@@ -29,9 +47,9 @@ def open_file():
         page_content = page.extractText()
         page_content = page_content.replace('\u2122', '')
         #text box
-        display_textbox(page_content, 2, 0, root)
+        display_textbox(page_content, 4, 0, root)
 
-        browse_text.set('Browse')
+    browse_text.set('Browse')
 
 
 display_logo('logo.png', 0, 0)
@@ -44,6 +62,6 @@ instructions.grid(column=2, row=0, sticky=SE, padx=75, pady=5)
 browse_text = StringVar()
 browse_btn = Button(root, textvariable=browse_text,command=lambda:open_file(), font='Arial',bg='#20bebe', fg='white', height=2, width=15)
 browse_text.set('Browse')
-browse_btn.grid(column=1, row=2)
+browse_btn.grid(column=2, row=1, sticky=NE, padx=50)
 
 root.mainloop()
